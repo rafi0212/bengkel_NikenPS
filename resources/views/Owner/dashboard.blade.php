@@ -14,11 +14,11 @@
             <h2 class="text-2xl font-bold tracking-wide">NIKEN POWER STEERING</h2>
         </div>
         <nav class="mt-10 flex-grow">
-            <a href="/superadmin/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
-            <a href="/superadmin/userread" class="block py-2.5 px-6 hover:bg-indigo-700">User</a>
-            <a href="#" class="block py-2.5 px-6 hover:bg-indigo-700">Product</a>
-            <a href="#" class="block py-2.5 px-6 hover:bg-indigo-700">Kategori</a>
-            <a href="#" class="block py-2.5 px-6 hover:bg-indigo-700">Transaksi</a>
+            <a href="/Owner/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
+            <a href="/Owner/userread" class="block py-2.5 px-6 hover:bg-indigo-700">User</a>
+            <a href="/Owner/productread" class="block py-2.5 px-6 hover:bg-indigo-700">Product</a>
+            <a href="/Owner/kategoriread" class="block py-2.5 px-6 hover:bg-indigo-700">Kategori</a>
+            <a href="/Owner/transaksiread" class="block py-2.5 px-6 hover:bg-indigo-700">Transaksi</a>
         </nav>
     </aside>
 
@@ -63,11 +63,11 @@
         <div class="grid grid-cols-3 gap-6 mt-8">
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <h3 class="text-xl font-semibold">Total Penjualan</h3>
-                <p class="text-4xl font-bold mt-2">10</p>
+                <p class="text-4xl font-bold mt-2">13</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <h3 class="text-xl font-semibold">Total Product</h3>
-                <p class="text-4xl font-bold mt-2">18</p>
+                <p class="text-4xl font-bold mt-2">{{ $products->total() }}</p>
             </div>
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <h3 class="text-xl font-semibold">Jumlah Customer</h3>

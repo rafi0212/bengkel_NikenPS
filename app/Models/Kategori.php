@@ -23,4 +23,6 @@ class Kategori extends Model
     {
         return $this->hasMany(Produk::class, 'kode_kategori', 'kode_kategori');
     }
+
+    
 }

@@ -9,17 +9,11 @@ class Produk extends Model
 {
     use HasFactory;
 
-    // Nama tabel yang digunakan di database
-    protected $table = 'produk';
+    protected $table = 'products'; // Tabel di database
+    protected $primaryKey = 'no_produk'; // Kolom primary key
+    public $incrementing = false; // Primary key bukan auto increment
+    protected $keyType = 'string'; // Tipe primary key string
 
-    // Primary key tabel (jika berbeda dari 'id')
-    protected $primaryKey = 'no_produk';
-
-    // Tipe primary key (jika bukan incrementing integer)
-    public $incrementing = false;
-    protected $keyType = 'string';
-
-    // Kolom yang dapat diisi secara massal
     protected $fillable = [
         'no_produk',
         'kode_kategori',
@@ -29,9 +23,15 @@ class Produk extends Model
         'harga',
     ];
 
+
     // Relasi dengan tabel kategori (optional)
     public function kategori()
     {
         return $this->belongsTo(Kategori::class, 'kode_kategori', 'kode_kategori');
+    }
+    // Relasi dengan detail transaksi
+    public function detailTransaksi()
+    {
+        return $this->hasMany(Detail_transaksi::class, 'no_produk', 'no_produk');
     }
 }

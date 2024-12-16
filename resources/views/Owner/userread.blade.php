@@ -13,11 +13,11 @@
                 <h2 class="text-2xl font-bold tracking-wide">NIKEN POWER STEERING</h2>
             </div>
             <nav class="mt-10 flex-grow">
-                <a href="/superadmin/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
-                <a href="/superadmin/userread" class="block py-2.5 px-6 hover:bg-indigo-700">User</a>
-                <a href="/superadmin/productread" class="block py-2.5 px-6 hover:bg-indigo-700">Product</a>
-                <a href="#" class="block py-2.5 px-6 hover:bg-indigo-700">Kategori</a>
-                <a href="#" class="block py-2.5 px-6 hover:bg-indigo-700">Transaksi</a>
+                <a href="/Owner/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
+                <a href="/Owner/userread" class="block py-2.5 px-6 hover:bg-indigo-700">User</a>
+                <a href="/Owner/productread" class="block py-2.5 px-6 hover:bg-indigo-700">Product</a>
+                <a href="/Owner/kategoriread" class="block py-2.5 px-6 hover:bg-indigo-700">Kategori</a>
+                <a href="/Owner/transaksiread" class="block py-2.5 px-6 hover:bg-indigo-700">Transaksi</a>
             </nav>
         </aside>
     
@@ -62,10 +62,11 @@
             <div class="p-6">
                 <div class="flex justify-between items-center mb-6 mt-8">
                     <h2 class="text-2xl font-bold text-gray-700">Manage User</h2>
-                    <a href="" 
-                       class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-lg shadow-md">
-                        User +
+                    <a href="{{ route('usermenu.create') }}" 
+                        class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-lg shadow-md">
+                            User +
                     </a>
+
                 </div>
             
                 <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -86,11 +87,11 @@
                                 <td class="px-6 py-4 text-sm text-gray-700 border-r border-gray-300">{{ $user->email }}</td>
                                 <td class="px-6 py-4 text-sm text-gray-700 border-r border-gray-300">{{ $user->status_pekerjaan }}</td>
                                 <td class="px-6 py-4 text-center">
-                                    <!-- Edit Icon -->
+                                    
                                     <a href="{{ route('usermenu.edit', $user->email) }}" 
-                                       class="text-blue-500 hover:text-blue-700 mx-2">
-                                       ✎
-                                    </a>
+                                        class="text-blue-500 hover:text-blue-700 mx-2">
+                                        ✎
+                                     </a>
                                     <!-- Delete Icon -->
                                     <form action="{{ route('usermenu.delete', $user->email) }}" 
                                           method="POST" class="inline-block">

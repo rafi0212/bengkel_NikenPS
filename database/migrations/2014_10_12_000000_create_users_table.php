@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('email')->primary()->unique(); // Menggunakan email sebagai primary key
             $table->string('username');
             $table->string('password');
-            $table->enum('status_pekerjaan', ['Superadmin', 'Kasir']); // Role user
+            $table->enum('status_pekerjaan', ['Owner', 'Kasir']); // Role user
             $table->timestamps();
         });
     }

@@ -25,10 +25,10 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->status_pekerjaan === 'Superadmin') {
-                return redirect('/superadmin/dashboard');
+            if ($user->status_pekerjaan === 'Owner') {
+                return redirect('/Owner/dashboard');
             } elseif ($user->status_pekerjaan === 'Kasir') {
-                return redirect('/kasir/dashboard');
+                return redirect('/kasir/Transaksi');
             }
         }
 

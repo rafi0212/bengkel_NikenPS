@@ -13,7 +13,6 @@
     <div class="bg-indigo-800 text-white flex justify-between items-center p-4">
         <div class="flex items-center space-x-8 ml-[600px]">
             <nav class="flex space-x-9">
-                <a href="#" class="text-white hover:text-gray-200">Dashboard</a>
                 <a href="#" class="text-white hover:text-gray-200">Transaksi</a>
                 <a href="#" class="text-white hover:text-gray-200">POS</a>
             </nav>
@@ -57,7 +56,9 @@
         <!-- Page Title and Button -->
         <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Manage Transaksi</h2>
-            <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+            <button 
+                onclick="location.href='/Kasir/transaksi/create'" 
+                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                 + Transaksi
             </button>
         </div>
@@ -75,41 +76,40 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Example Rows -->
-                    <tr>
-                        <td class="py-3 px-4 border-b text-sm text-gray-700">1</td>
-                        <td class="py-3 px-4 border-b text-sm text-gray-700">John Doe</td>
-                        <td class="py-3 px-4 border-b text-sm text-gray-700">2024-11-24</td>
-                        <td class="py-3 px-4 border-b text-sm text-gray-700">Rp 1.000.000</td>
-                        <td class="py-3 px-4 border-b text-center text-sm text-gray-700 space-x-2">
-                            <button class="text-blue-500 hover:text-blue-700">
+                    @forelse ($transaksi as $item)
+                        <tr>
+                            <td class="py-3 px-4 border-b">{{ $item->id_transaksi }}</td>
+                            <td class="py-3 px-4 border-b">{{ $item->nama_pelanggan }}</td>
+                            <td class="py-3 px-4 border-b">{{ $item->tanggal_transaksi }}</td>
+                            <td class="py-3 px-4 border-b">Rp {{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                            <td class="py-3 px-4 border-b text-center space-x-2">
+                            <a 
+                                href="/Kasir/transaksi/edit/{{ $item->id_transaksi }}" 
+                                class="text-blue-500 hover:text-blue-700">
                                 ✏️
-                            </button>
-                            <button class="text-red-500 hover:text-red-700">
-                                🗑️
-                            </button>
-                            <button class="text-green-500 hover:text-green-700">
-                                📄 <!-- Tombol Detail -->
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="py-3 px-4 border-b text-sm text-gray-700">2</td>
-                        <td class="py-3 px-4 border-b text-sm text-gray-700">Jane Smith</td>
-                        <td class="py-3 px-4 border-b text-sm text-gray-700">2024-11-23</td>
-                        <td class="py-3 px-4 border-b text-sm text-gray-700">Rp 750.000</td>
-                        <td class="py-3 px-4 border-b text-center text-sm text-gray-700 space-x-2">
-                            <button class="text-blue-500 hover:text-blue-700">
-                                ✏️
-                            </button>
-                            <button class="text-red-500 hover:text-red-700">
-                                🗑️
-                            </button>
-                            <button class="text-green-500 hover:text-green-700">
-                                📄 <!-- Tombol Detail -->
-                            </button>
-                        </td>
-                    </tr>
+                            </a>
+                               
+                            <form 
+                                action="{{ route('kasir.transaksi.destroy', $item->id_transaksi) }}" 
+                                method="POST" 
+                                class="inline-block"
+                                onsubmit="return confirm('Apakah Anda yakin ingin menghapus transaksi ini?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-500 hover:text-red-700">🗑️</button>
+                            </form>
+
+                                                            <!-- Ikon 📄 untuk akses detail transaksi -->
+                            <a href="{{ route('kasir.detail.show', $item->id_transaksi) }}" class="text-2xl">
+                                📄
+                            </a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-gray-500">Tidak ada data transaksi.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

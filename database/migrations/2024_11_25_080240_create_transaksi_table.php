@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('kategori', function (Blueprint $table) {
-            $table->string('kode_kategori', 5)->primary();
-            $table->string('nama_kategori', 20)->nullable();
+        Schema::create('transaksi', function (Blueprint $table) {
+            $table->integer('id_transaksi')->primary();;
+            $table->date('tanggal_transaksi')->nullable();
+            $table->string('nama_pelanggan', 15)->nullable();
+            $table->string('total_harga', 25)->nullable();
             $table->timestamps();
         });
+
     }
 
     /**
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('kategori');
+        Schema::dropIfExists('transaksi');
     }
 };
