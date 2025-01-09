@@ -9,30 +9,14 @@ class Transaksi extends Model
 {
     use HasFactory;
 
-    // Tentukan nama tabel jika tidak menggunakan nama konvensional
-    protected $table = 'transaksi';
-
-    protected $primaryKey = 'id_transaksi'; 
-
-    // Tentukan kolom mana yang bisa diisi menggunakan mass-assignment
+    protected $table = 'transaksi'; // Nama tabel
+    protected $primaryKey = 'id_transaksi'; // Primary Key
+    public $incrementing = false; // Primary key tidak auto-increment
+    protected $keyType = 'integer'; // Tipe primary key
     protected $fillable = [
-        'id_transaksi',
-        'tanggal_transaksi',
-        'nama_pelanggan',
-        'total_harga'
+        'id_transaksi', 'tanggal_transaksi', 'nama_pelanggan', 'Keterangan_Service', 'servis', 'total_harga'
     ];
 
-    // Jika tidak menggunakan auto increment pada id
-    public $incrementing = false;
-
-    // Tentukan tipe data untuk kolom id_transaksi
-    protected $keyType = 'integer';
-
-    // Tentukan format tanggal yang digunakan pada kolom tanggal_transaksi
-    protected $dates = [
-        'tanggal_transaksi',
-    ];
-    
     // Relasi dengan detail transaksi
     public function detailTransaksi()
     {

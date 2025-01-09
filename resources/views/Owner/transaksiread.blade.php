@@ -15,7 +15,7 @@
             <h2 class="text-2xl font-bold tracking-wide">NIKEN POWER STEERING</h2>
         </div>
         <nav class="mt-10 flex-grow">
-            <a href="/Owner/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
+            <a href="/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
             <a href="/Owner/userread" class="block py-2.5 px-6 hover:bg-indigo-700">User</a>
             <a href="/Owner/productread" class="block py-2.5 px-6 hover:bg-indigo-700">Product</a>
             <a href="/Owner/kategoriread" class="block py-2.5 px-6 hover:bg-indigo-700">Kategori</a>
@@ -28,12 +28,18 @@
         <!-- Header -->
         <div class="flex justify-between items-center bg-white shadow-md px-6 py-4">
             <div class="relative group mr-4">
-                <div class="flex items-center space-x-4 cursor-pointer">
-                    <div class="w-10 h-10 bg-red-500 rounded-full" style="margin-left: 1060px;"></div> 
+                <div class="flex items-center space-x-4 cursor-pointer" style="margin-left: 1060px;">
+                    <!-- User Icon (Heroicons) -->
+                    <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 16c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                    </div>
                     <span class="text-lg font-medium">
                         {{ auth()->user()->username ?? 'Guest' }}
                     </span>
                 </div>
+                
                 <div 
                     class="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg 
                            shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible 
@@ -58,9 +64,9 @@
             <div class="flex justify-between items-center mb-6 mt-8">
                 <h2 class="text-2xl font-bold text-gray-700">Menu Transaksi</h2>
                 <div>
-                    <a href="{{ route('transaksi.export.pdf') }}" class="bg-red-500 text-white px-4 py-2 rounded shadow hover:bg-red-600">
-                        Cetak PDF
-                    </a>
+                    <a href="{{ route('transaksi.print') }}" class="bg-yellow-500 text-white px-4 py-2 rounded shadow hover:bg-yellow-600  mr-2">
+                        Cetak Transaksi PDF
+                    </a>                    
                     <a href="{{ route('transaksi.export.excel') }}" class="bg-green-500 text-white px-4 py-2 rounded shadow hover:bg-green-600">
                         Cetak Excel
                     </a>
@@ -76,6 +82,8 @@
                             <th class="px-6 py-3 text-left text-sm font-semibold">ID Transaksi</th>
                             <th class="px-6 py-3 text-left text-sm font-semibold">Tanggal Transaksi</th>
                             <th class="px-6 py-3 text-left text-sm font-semibold">Nama Pelanggan</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Service</th>
+                            <th class="px-6 py-3 text-left text-sm font-semibold">Total Product</th>
                             <th class="px-6 py-3 text-left text-sm font-semibold">Total Harga</th>
                            
                         </tr>
@@ -91,7 +99,13 @@
                                 {{ $item->nama_pelanggan ?? 'Nama Tidak Tersedia' }}
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-700 border-r border-gray-300">
+                                Rp {{ number_format($item->servis ?? 0, 0, ',', '.') }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700 border-r border-gray-300">
                                 Rp {{ number_format($item->total_harga ?? 0, 0, ',', '.') }}
+                            </td>
+                            <td class="px-6 py-4 text-sm text-gray-700 border-r border-gray-300">
+                                Rp {{ number_format(($item->servis ?? 0) + ($item->total_harga ?? 0), 0, ',', '.') }}
                             </td>
                             
                             

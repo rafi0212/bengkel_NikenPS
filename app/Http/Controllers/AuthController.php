@@ -20,20 +20,24 @@ class AuthController extends Controller
     }
 
     public function handleLogin(Request $request)
-    {
-        $credentials = $request->only('email', 'password');
+{
+    $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
-            $user = Auth::user();
-            if ($user->status_pekerjaan === 'Owner') {
-                return redirect('/Owner/dashboard');
-            } elseif ($user->status_pekerjaan === 'Kasir') {
-                return redirect('/kasir/Transaksi');
-            }
+    // Attempt to log the user in
+    if (Auth::attempt($credentials)) {
+        $user = Auth::user();
+        if ($user->status_pekerjaan === 'Owner') {
+            return redirect('dashboard');
+        } elseif ($user->status_pekerjaan === 'Kasir') {
+            return redirect('/kasir/transaksi_read');
         }
-
-        return back()->with('error', 'Invalid login credentials.');
     }
+
+    // If login fails, redirect back with a custom error message in Indonesian
+    return back()->with('error', 'Email atau password yang Anda masukkan salah. Silakan coba lagi.');
+}
+
+
 
     public function handleRegister(Request $request)
     {
@@ -42,17 +46,17 @@ class AuthController extends Controller
             'username' => 'required|string',
             'password' => 'required|string|min:6',
         ]);
-    
+
         User::create([
             'email' => $request->email,
             'username' => $request->username,
             'password' => Hash::make($request->password),
             'status_pekerjaan' => 'Kasir', // Nilai default
         ]);
-    
+
         return redirect('/login')->with('success', 'Registration successful. Please login.');
     }
-    
+
 
     public function logout()
     {

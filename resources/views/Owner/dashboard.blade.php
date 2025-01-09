@@ -14,7 +14,7 @@
             <h2 class="text-2xl font-bold tracking-wide">NIKEN POWER STEERING</h2>
         </div>
         <nav class="mt-10 flex-grow">
-            <a href="/Owner/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
+            <a href="/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
             <a href="/Owner/userread" class="block py-2.5 px-6 hover:bg-indigo-700">User</a>
             <a href="/Owner/productread" class="block py-2.5 px-6 hover:bg-indigo-700">Product</a>
             <a href="/Owner/kategoriread" class="block py-2.5 px-6 hover:bg-indigo-700">Kategori</a>
@@ -29,10 +29,13 @@
 
             <!-- Admin Profile & Dropdown -->
             <div class="relative group">
-                
                 <div class="flex items-center space-x-4 cursor-pointer">
                     <!-- Avatar di kiri -->
-                    <div class="w-10 h-10 bg-red-500 rounded-full"></div>
+                    <div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 16c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                    </div>
                 
                     <!-- Nama pengguna tampil dinamis -->
                     <span class="text-lg font-medium">
@@ -59,53 +62,64 @@
             </div>
         </div>
 
-        <!-- Card Section -->
+        <!-- Card Section for Total Values -->
         <div class="grid grid-cols-3 gap-6 mt-8">
+            <!-- Total Penjualan Card -->
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
                 <h3 class="text-xl font-semibold">Total Penjualan</h3>
-                <p class="text-4xl font-bold mt-2">13</p>
+                <p class="text-4xl font-bold mt-2">{{ $salesData->sum() }}</p>  <!-- Total Penjualan -->
             </div>
+
+            <!-- Total Produk Card -->
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <h3 class="text-xl font-semibold">Total Product</h3>
-                <p class="text-4xl font-bold mt-2">{{ $products->total() }}</p>
+                <h3 class="text-xl font-semibold">Total Produk</h3>
+                <p class="text-4xl font-bold mt-2">{{ $products->total() }}</p>  <!-- Total Produk -->
             </div>
+
+            <!-- Total Cash Flow Card -->
             <div class="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300">
-                <h3 class="text-xl font-semibold">Jumlah Customer</h3>
-                <p class="text-4xl font-bold mt-2">15</p>
+                <h3 class="text-xl font-semibold"><a href="/Owner/transaksiread" class="block py-2.5 px-6 hover:bg-indigo-700">Arus Kas</a></h3>
+                <p class="text-4xl font-bold mt-2">Rp {{ number_format($cashFlowData->sum(), 0, ',', '.') }}</p>  <!-- Total Arus Kas -->
+                
             </div>
         </div>
 
-         <!-- Chart Section -->
-        <div class="mt-8 bg-white p-3 rounded-lg shadow-lg">
-            <canvas id="myChart" class="w-full h-[900px] max-h-[425px]"></canvas> <!-- Mengatur tinggi dan tinggi maksimum -->
-        </div>
+        <!-- Chart Section - Below the cards -->
+        <div class="mt-8">
+            <div class="grid grid-cols-2 gap-6">
+                <!-- Penjualan & Produk Combined Chart (Stacked Bar Chart) -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold">Penjualan & Produk (Grafik Batang Bertumpuk)</h3>
+                    <canvas id="salesProductChart" class="w-full h-[200px] mt-4"></canvas> <!-- Grafik Batang Bertumpuk untuk Penjualan dan Produk -->
+                </div>
 
-        
+                <!-- Cash Flow Chart (Line Chart) -->
+                <div class="bg-white p-6 rounded-lg shadow-lg">
+                    <h3 class="text-xl font-semibold">Arus Kas (Grafik Garis)</h3>
+                    <canvas id="cashFlowChart" class="w-full h-[200px] mt-4"></canvas> <!-- Grafik Garis Arus Kas -->
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Chart.js Script -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
+        const ctx = document.getElementById('salesProductChart').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+                labels: @json(range(1, 12)),  // Mengelompokkan berdasarkan bulan (1-12)
                 datasets: [
                     {
                         label: 'Penjualan',
-                        data: [12, 19, 3, 5, 2, 3, 10, 20, 15, 8],
+                        data: @json($salesData->values()), // Mengirim data penjualan dinamis
                         backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     },
                     {
                         label: 'Produk',
-                        data: [10, 15, 7, 10, 5, 12, 8, 15, 10, 7],
+                        data: @json($productsData->values()), // Mengirim data produk dinamis
                         backgroundColor: 'rgba(255, 159, 64, 0.6)',
-                    },
-                    {
-                        label: 'Customer',
-                        data: [8, 12, 15, 5, 7, 10, 13, 9, 5, 12],
-                        backgroundColor: 'rgba(153, 102, 255, 0.6)',
                     }
                 ]
             },
@@ -115,6 +129,35 @@
                     legend: {
                         position: 'top',
                     },
+                }
+            }
+        });
+
+        // Data Arus Kas - Grafik Garis
+        const cashFlowCtx = document.getElementById('cashFlowChart').getContext('2d');
+        const cashFlowChart = new Chart(cashFlowCtx, {
+            type: 'line',
+            data: {
+                labels: @json(range(1, 12)),  // Label untuk bulan 1-12
+                datasets: [{
+                    label: 'Arus Kas',
+                    data: @json($cashFlowData->values()),  // Data Arus Kas
+                    borderColor: 'rgba(255, 99, 132, 1)',  // Warna untuk Garis Arus Kas
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',  // Warna untuk Garis Arus Kas
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true  // Set Y-axis untuk mulai dari 0
+                    }
                 }
             }
         });

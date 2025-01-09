@@ -13,7 +13,7 @@
             <h2 class="text-2xl font-bold tracking-wide">NIKEN POWER STEERING</h2>
         </div>
         <nav class="mt-10 flex-grow">
-            <a href="/Owner/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
+            <a href="/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
             <a href="/Owner/userread" class="block py-2.5 px-6 hover:bg-indigo-700">User</a>
             <a href="/Owner/productread" class="block py-2.5 px-6 hover:bg-indigo-700">Product</a>
             <a href="/Owner/kategoriread" class="block py-2.5 px-6 hover:bg-indigo-700">Kategori</a>
@@ -128,10 +128,13 @@
             <!-- Submit Button -->
             <button 
                 type="submit" 
-                class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg shadow-md w-full"
-            >
-                Perbarui Produk
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg ">
+                Update
             </button>
+            <a href="{{ url()->previous() }}" 
+                class="bg-red-500 text-white px-6 py-3 rounded-lg hover:bg-red-600">
+                Batal
+            </a>
         </form>
     </div>
 </body>

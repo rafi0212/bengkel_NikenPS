@@ -19,10 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-use App\Http\Controllers\POSController;
-
-Route::get('/coba', [POSController::class, 'index'])->name('pos.index');
-
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'handleLogin']);
@@ -31,17 +27,19 @@ Route::post('/register', [AuthController::class, 'handleRegister'])->name('regis
 
 Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::get('/Owner/dashboard', [DashboardController::class, 'Owner']);
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 Route::middleware(['auth', 'role:Kasir'])->group(function () {
-    Route::get('/kasir/Transaksi', [DashboardController::class, 'kasir']);
+    Route::get('/kasir/transaksi_read', [DashboardController::class, 'kasir']);
 });
 
 // Route Logout
 Route::post('/logout', function () {
     Auth::logout();
-    return redirect('/login'); 
+    return redirect('/login');
 })->name('logout');
+
 
 
 use App\Http\Controllers\Owner\UserMenuController;
@@ -84,8 +82,8 @@ use App\Http\Controllers\Owner\TransaksiController;
 Route::middleware(['auth', 'role:Owner'])->group(function () {
     Route::get('/Owner/transaksiread', [TransaksiController::class, 'index'])->name('transaksi.index');
     Route::get('/Owner/transaksi/export-excel', [TransaksiController::class, 'exportExcel'])->name('transaksi.export.excel');
-    Route::get('/Owner/transaksi/export-pdf', [TransaksiController::class, 'exportPDF'])->name('transaksi.export.pdf');
-    
+    Route::get('owner/transaksi/cetak', [TransaksiController::class, 'print'])->name('transaksi.print');
+
 });
 
 
@@ -94,6 +92,7 @@ use App\Http\Controllers\Kasir\KasirTransaksiController;
 
 Route::middleware(['auth', 'role:Kasir'])->group(function () {
     Route::get('/Kasir/transaksiread', [KasirTransaksiController::class, 'index'])->name('kasir.transaksi.index');
+    Route::get('/Kasir/transaksishow', [KasirTransaksiController::class, 'history'])->name('kasir.transaksi.history');
     Route::get('/Kasir/transaksi/create', [KasirTransaksiController::class, 'create'])->name('kasir.transaksi.create');
     Route::post('/Kasir/transaksi', [KasirTransaksiController::class, 'store'])->name('kasir.transaksi.store');
     Route::get('/Kasir/transaksi/edit/{id_transaksi}', [KasirTransaksiController::class, 'edit'])->name('kasir.transaksi.edit');
@@ -108,8 +107,12 @@ use App\Http\Controllers\Kasir\DetailTransaksiController;
 Route::middleware(['auth', 'role:Kasir'])->group(function () {
     Route::get('/Kasir/transaksi/detail/{id_transaksi}', [DetailTransaksiController::class, 'show'])->name('kasir.detail.show');
     Route::get('/Kasir/transaksi/tambah/{id_transaksi}', [DetailTransaksiController::class, 'tambah'])->name('kasir.detail.tambah');
-    Route::get('/Kasir/transaksi/edit/{id_transaksi}/{no_produk}', [DetailTransaksiController::class, 'edit'])->name('kasir.detail.edit');
-    Route::post('/Kasir/transaksi/tambah/{id_transaksi}', [DetailTransaksiController::class, 'tambahDetailProduk'])->name('kasir.detail.tambahDetailProduk');
-    Route::put('/Kasir/transaksi/update/{id_transaksi}/{no_produk}', [DetailTransaksiController::class, 'update'])->name('kasir.detail.update');
-    Route::delete('/Kasir/transaksi/hapus/{id_transaksi}/{no_produk}', [DetailTransaksiController::class, 'destroy'])->name('kasir.detail.destroy');
+    Route::post('/Kasir/transaksi/tambahDetailProduk', [DetailTransaksiController::class, 'tambahDetailProduk'])->name('kasir.detail.tambahDetailProduk');
+       Route::delete('/kasir/transaksi/hapus/{id_transaksi}/produk/{no_produk}', [DetailTransaksiController::class, 'hapusProdukDetailTransaksi'])
+        ->name('kasir.detail.hapusProdukDetailTransaksi');
+        Route::get('/kasir/transaksi/cetak/{id_transaksi}', [DetailTransaksiController::class, 'cetak'])
+    ->name('kasir.transaksi.cetak');
 });
+
+
+

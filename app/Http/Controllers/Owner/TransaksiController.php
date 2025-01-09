@@ -16,7 +16,13 @@ class TransaksiController extends Controller
     {
         // Mengambil transaksi dengan pagination
         $transaksi = Transaksi::paginate(10);
-        return view('Owner.transaksiread', compact('transaksi'));
+
+        // Menghitung total keseluruhan dari semua transaksi
+        $totalKeseluruhan = $transaksi->sum(function($item) {
+            return ($item->servis ?? 0) + ($item->total_harga ?? 0);
+        });
+
+        return view('Owner.transaksiread', compact('transaksi', 'totalKeseluruhan'));
     }
 
     // Menampilkan form untuk membuat transaksi baru
@@ -77,11 +83,17 @@ class TransaksiController extends Controller
         return Excel::download(new TransaksiExport, 'transaksi.xlsx');
     }
 
-    // Ekspor data transaksi ke file PDF
-    public function exportPdf()
-    {
-        $transaksi = Transaksi::all();
-        $pdf = Pdf::loadView('Owner.transaksi-pdf', compact('transaksi'));
-        return $pdf->download('transaksi.pdf');
-    }
+    public function print()
+{
+    $transaksi = Transaksi::all(); // Get all transactions
+    
+    // Calculate the total keseluruhan for all transactions
+    $totalKeseluruhan = $transaksi->sum(function($item) {
+        return ($item->servis ?? 0) + ($item->total_harga ?? 0);
+    });
+
+    return view('Owner.transaksi-print', compact('transaksi', 'totalKeseluruhan')); // Return the print view with the total
+}
+
+
 }

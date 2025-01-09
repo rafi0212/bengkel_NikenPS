@@ -15,14 +15,12 @@
             <p class="text-green-600 text-center mb-4">{{ session('success') }}</p>
         @endif
 
-        <!-- Error Messages -->
-        @if ($errors->any())
-            <ul class="text-red-600 mb-4">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        @endif
+       <!-- Error Messages with Enhanced Styling -->
+       @if (session('error'))
+       <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 rounded-lg shadow-md">
+           <strong class="font-semibold">Kesalahan:</strong> {{ session('error') }}
+       </div>
+   @endif
 
         <!-- Login Form -->
         <form method="POST" action="{{ route('login') }}" class="space-y-4">
@@ -63,10 +61,6 @@
             </button>
         </form>
 
-        <p class="mt-6 text-center text-sm text-gray-500">
-            Don't have an account? 
-            <a href="/register" class="text-indigo-600 hover:underline">Register</a>
-        </p>
     </div>
 </body>
 </html>

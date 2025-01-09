@@ -13,7 +13,7 @@
                 <h2 class="text-2xl font-bold tracking-wide">NIKEN POWER STEERING</h2>
             </div>
             <nav class="mt-10 flex-grow">
-                <a href="/Owner/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
+                <a href="/dashboard" class="block py-2.5 px-6 hover:bg-indigo-700">Dashboard</a>
                 <a href="/Owner/userread" class="block py-2.5 px-6 hover:bg-indigo-700">User</a>
                 <a href="/Owner/productread" class="block py-2.5 px-6 hover:bg-indigo-700">Product</a>
                 <a href="/Owner/kategoriread" class="block py-2.5 px-6 hover:bg-indigo-700">Kategori</a>
@@ -29,11 +29,13 @@
                 
                 <!-- Admin Profile & Dropdown -->
                 <div class="relative group mr-4">
-                    <div class="flex items-center space-x-4 cursor-pointer">
-                        <!-- Avatar di kiri -->
-                        <div class="w-10 h-10 bg-red-500 rounded-full" style="margin-left: 1060px;"></div> 
-                    
-                        <!-- Nama pengguna tampil dinamis -->
+                    <div class="flex items-center space-x-4 cursor-pointer" style="margin-left: 1060px;">
+                        <!-- User Icon (Heroicons) -->
+                        <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zM12 16c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                            </svg>
+                        </div>
                         <span class="text-lg font-medium">
                             {{ auth()->user()->username ?? 'Guest' }}
                         </span>
@@ -76,7 +78,7 @@
                             <tr>
                                 <th class="px-6 py-3 text-left text-sm font-semibold">Username</th>
                                 <th class="px-6 py-3 text-left text-sm font-semibold">Email</th>
-                                <th class="px-6 py-3 text-left text-sm font-semibold">Status</th>
+                                <th class="px-6 py-3 text-left text-sm font-semibold">Role</th>
                                 <th class="px-6 py-3 text-center text-sm font-semibold">Action</th>
                             </tr>
                         </thead>
@@ -98,7 +100,8 @@
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" 
-                                                class="text-red-500 hover:text-red-700">
+                                                class="text-red-500 hover:text-red-700"
+                                                onclick="return confirm('yakin hapus user ini?')">
                                             🗑
                                         </button>
                                     </form>
@@ -113,17 +116,7 @@
                         <div class="text-sm text-gray-600">
                             Showing {{ $users->firstItem() }} to {{ $users->lastItem() }} of {{ $users->total() }} entries
                         </div>
-                        <div class="flex items-center space-x-1">
-                            <button class="px-3 py-1 border bg-gray-300 text-gray-700 rounded-l hover:bg-gray-400">
-                                Previous
-                            </button>
-                            <button class="px-3 py-1 border bg-blue-500 text-white">1</button>
-                            <button class="px-3 py-1 border bg-gray-300 text-gray-700 hover:bg-gray-400">2</button>
-                            <button class="px-3 py-1 border bg-gray-300 text-gray-700 hover:bg-gray-400">3</button>
-                            <button class="px-3 py-1 border bg-gray-300 text-gray-700 rounded-r hover:bg-gray-400">
-                                Next
-                            </button>
-                        </div>
+                        
                         <div>
                             {{ $users->links('pagination::tailwind') }}
                         </div>

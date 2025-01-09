@@ -9,27 +9,31 @@ class Detail_transaksi extends Model
 {
     use HasFactory;
 
-    public $incrementing = false; // Menonaktifkan auto increment
-    protected $primaryKey = null; 
     protected $table = 'detail_transaksi';
-    
+    protected $primaryKey = ['id_transaksi', 'no_produk'];
+    public $incrementing = false;
+    public $timestamps = false;
+
     protected $fillable = [
         'id_transaksi',
         'no_produk',
         'nama_produk',
         'qty',
         'harga',
-        'sub_total',
+        'sub_total'
     ];
 
-    // Relasi dengan model Transaksi
+    public function getKeyName()
+    {
+        return ['id_transaksi', 'no_produk'];
+    }
+
     public function transaksi()
     {
         return $this->belongsTo(Transaksi::class, 'id_transaksi', 'id_transaksi');
     }
 
-    // Relasi dengan model Produk
-    public function product()
+    public function produk()
     {
         return $this->belongsTo(Produk::class, 'no_produk', 'no_produk');
     }

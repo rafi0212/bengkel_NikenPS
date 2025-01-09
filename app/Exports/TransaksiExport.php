@@ -11,12 +11,12 @@ class TransaksiExport implements FromCollection, WithHeadings
     // Ambil semua data transaksi
     public function collection()
     {
-        return Transaksi::all(['id_transaksi', 'tanggal_transaksi', 'nama_pelanggan', 'total_harga']);
+        return Transaksi::all(['id_transaksi', 'tanggal_transaksi', 'nama_pelanggan','servis', 'total_harga']);
     }
 
     // Tambahkan header pada file Excel
     public function headings(): array
     {
-        return ['ID Transaksi', 'Tanggal Transaksi', 'Nama Pelanggan', 'Total Harga'];
+        return ['ID Transaksi', 'Tanggal Transaksi', 'Nama Pelanggan','Service', 'Total Product'];
     }
 }

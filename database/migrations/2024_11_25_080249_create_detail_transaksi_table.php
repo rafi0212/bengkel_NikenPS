@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('no_produk', 15);
             $table->string('nama_produk', 35)->nullable();
             $table->integer('qty')->nullable();
-            $table->string('service', 35)->nullable();
             $table->string('harga', 35)->nullable();
             $table->string('sub_total', 25)->nullable();
             $table->timestamps();
